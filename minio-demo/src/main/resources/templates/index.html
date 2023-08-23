@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8"/>
+    <title>图片列表</title>
+    <link rel="stylesheet" href="http://cdn.staticfile.org/element-ui/2.13.1/theme-chalk/index.css">
+</head>
+<body>
+
+<div id="app">
+
+    <el-link icon="el-icon-upload" href="/upload.html">上传图片</el-link>
+    <br/>
+
+    <el-table :data="results" stripe style="width: 60%" @row-click="preview">
+        <el-table-column type="index" width="50"></el-table-column>
+        <el-table-column prop="fileName" label="文件名" width="180"></el-table-column>
+        <el-table-column prop="fileSize" label="文件大小"></el-table-column>
+        <el-table-column label="操作">
+            <template slot-scope="scope">
+                <a :href="'/download/' + scope.row.fileName + ''" class="el-icon-download">下载</a>
+                <a :href="'/delete/' + scope.row.fileName + ''" @click.prevent="deleteFile($event,scope.$index,results)"
+                   class="el-icon-delete">删除</a>
+            </template>
+        </el-table-column>
+    </el-table>
+
+
+
+</div>
+
+<script src="http://cdn.staticfile.org/vue/2.6.11/vue.min.js"></script>
+<script src="http://cdn.staticfile.org/axios/0.19.2/axios.min.js"></script>
+<script src="http://cdn.staticfile.org/element-ui/2.13.1/index.js"></script>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            previewImg: true,
+            results: [],
+            imgList: []
+        },
+        methods: {
+            init() {
+                axios.get('/list?bucketName=bucket03').then(response => {
+                    this.results = response.data;
+            });
+            },
+            preview(row, event, column) {
+                this.previewImg = true;
+            },
+            deleteFile(e,index,list) {
+                axios.delete(e.target.href, {}).then(res => {
+                    if (res.data.code == 200) {
+                    this.$message('删除成功！');
+                    list.splice(index, 1);
+                    this.previewImg = false;
+                } else {
+                    this.$message('删除失败！');
+                }
+            });
+            }
+        },
+        mounted() {
+            this.init();
+        }
+    });
+</script>
+
+</body>
+</html>

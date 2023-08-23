@@ -1,0 +1,18 @@
+server:
+  port: 9999
+
+
+minio:
+  endpoint: http://10.10.1.198:9000
+  accesskey: admin
+  secretKey: admin123456
+  bucketName: bucket01
+
+
+spring:
+  thymeleaf:
+    cache: false
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 100MB

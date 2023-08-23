@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="PhotoAPIService:war">
+    <output-path>$PROJECT_DIR$/minio-java-rest-example-master/target</output-path>
+    <root id="archive" name="PhotoAPIService-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="PhotoAPIService:war exploded" />
+    </root>
+  </artifact>
+</component>
